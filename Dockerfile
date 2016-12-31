@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 ARG APT_PROXY
 # Package caching
-RUN if [ "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"http://${APT_PROXY}:3142\"; };" > /etc/apt/apt.conf.d/01proxy; fi
+RUN if [ "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"http://${APT_PROXY}\"; };" > /etc/apt/apt.conf.d/01proxy; fi
 
 # Install base Ubuntu libraries
 RUN apt-get update && \
@@ -42,6 +42,9 @@ rm -rf /var/lib/apt/lists/* && \
 rm -f /var/cache/apt/archives/*.deb
 
 ENV MAYAN_INSTALL_DIR=/usr/local/lib/python2.7/dist-packages/mayan
+
+# Update to latest version of pip
+RUN pip install -U pip
 
 # Install Mayan EDMS, latest production release
 RUN pip install mayan-edms==2.1.6

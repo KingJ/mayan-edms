@@ -113,4 +113,18 @@ Execute Docker's build command:
 
 Build the image using an apt cacher:
 
-    docker build -t mayanedms/mayanedms --build-arg APT_PROXY=172.18.0.1 .
+    docker build -t mayanedms/mayanedms --build-arg APT_PROXY=172.18.0.1:3142 .
+
+
+Testing
+-------
+
+Create Vagrant box, which builds the Docker image and container:
+
+    vagrant up
+
+Create the same Vagrant box using an apt cacher:
+
+    APT_PROXY=172.18.0.1:3142 vagrant up
+
+
