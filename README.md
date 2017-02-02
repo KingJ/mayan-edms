@@ -27,6 +27,7 @@ All files will be stored in the following two volumes:
 If another web server is running on port 80 use a different port in the
 ``-p`` option, ie: ``-p 81:80``.
 
+
 Stopping and starting
 ---------------------
 To stop the container use:
@@ -94,6 +95,35 @@ Restore
 Uncompress the archive in the original docker volume using:
 
     sudo tar -xvzf backup.tar.gz -C /
+
+
+Upgrading
+---------
+Upgrading a Mayan EDMS Docker container is actually a matter of upgrading the
+database as the actualy binaries will be upgraded automatically when the new
+Docker image version is downloaded.
+
+IMPORTANT! Don't delete the volumes, only the container.
+
+Stop the container to be upgraded:
+
+    docker stop mayan-edms
+
+Remove the container:
+
+    docker stop mayan-edms
+
+Pull the new image version:
+
+    docker pull mayanedms/mayanedms:latest
+
+Run the upgrade command using a temporary container:
+
+    docker run --rm -v mayan_media:/var/lib/mayan -v mayan_settings:/etc/mayan mayanedms/mayanedms:latest mayan:upgrade
+
+Start the container again with the new image version:
+
+    docker run -d --name mayan-edms --restart=always -p 80:80 -v mayan_media:/var/lib/mayan -v mayan_settings:/etc/mayan mayanedms/mayanedms:latest
 
 
 Building the image

@@ -47,7 +47,7 @@ ENV MAYAN_INSTALL_DIR=/usr/local/lib/python2.7/dist-packages/mayan
 RUN pip install -U pip
 
 # Install Mayan EDMS, latest production release
-RUN pip install mayan-edms==2.1.6
+RUN pip install mayan-edms==2.1.7
 
 # Install Python clients for PostgreSQL, REDIS, librabbitmq and uWSGI
 RUN pip install redis uwsgi
