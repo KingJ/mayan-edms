@@ -88,6 +88,32 @@ RUN chown www-data:www-data /var/lib/mayan
 RUN chown www-data:www-data /etc/mayan
 VOLUME ["/etc/mayan", "/var/lib/mayan"]
 
+# Make a backup copy of the base settings files in case host directories are
+# used for volumes.
+# Issue: https://gitlab.com/mayan-edms/mayan-edms-docker/issues/6
+#
+# Cause: "Volumes are initialized when a container is created. If the
+# container’s base image contains data at the specified mount point, that
+# existing data is copied into the new volume upon volume initialization.
+# (Note that this does not apply when mounting a host directory.)"
+#
+# https://docs.docker.com/engine/tutorials/dockervolumes/
+
+RUN cp $MAYAN_INSTALL_DIR/settings/ $MAYAN_INSTALL_DIR/settings-backup -ax
+
+# Make a backup of the media directory in case host directories are
+# used for volumes.
+# Issue: https://gitlab.com/mayan-edms/mayan-edms-docker/issues/6
+#
+# Cause: "Volumes are initialized when a container is created. If the
+# container’s base image contains data at the specified mount point, that
+# existing data is copied into the new volume upon volume initialization.
+# (Note that this does not apply when mounting a host directory.)"
+#
+# https://docs.docker.com/engine/tutorials/dockervolumes/
+
+RUN cp $MAYAN_INSTALL_DIR/media $MAYAN_INSTALL_DIR/media-backup -ax
+
 COPY entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
